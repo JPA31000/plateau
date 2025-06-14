@@ -14,9 +14,11 @@ const phases = [
 ];
 
 let currentPhase = 0;
+let score = 0;
 const container = document.getElementById("game-container");
 const truck = document.getElementById("truck");
 const messageBox = document.getElementById("message");
+const scoreBox = document.getElementById("score");
 let panels = [];
 const fallSpeed = 0.5; // vitesse de chute plus lente
 
@@ -72,12 +74,16 @@ function gameLoop() {
 function handleCatch(panel, index) {
   if (panel.phaseIndex === currentPhase) {
     currentPhase++;
+    score++;
+    if (scoreBox) {
+      scoreBox.textContent = `Score : ${score}`;
+    }
     panel.element.remove();
     panels.splice(index, 1);
     spawnPanel();
     hideMessage();
     if (currentPhase === phases.length) {
-      setTimeout(() => alert("Félicitations ! Vous avez complété toutes les phases."), 100);
+      setTimeout(() => alert(`Félicitations ! Vous avez complété toutes les phases.\nScore : ${score}`), 100);
     }
   } else {
     showMessage(`Phase attendue : ${phases[currentPhase].name}`);
